@@ -1,5 +1,5 @@
 import { Component } from "react";
-
+import css from '../../styles.css'
 
 export class Searchbar extends Component {
 
@@ -15,24 +15,26 @@ export class Searchbar extends Component {
 }
 
 
+render() {
+  return (
+    <header className={css.searchbar}>
+    <form className={css.searchForm} onSubmit={this.handleSubmit}>
+      <button type="submit" className={css.searchFor_button}>
+        <span className="button-label">Search</span>
+      </button>
+  
+      <input
+        className={css.searchForm_input}
+        type="text"
+        autocomplete="off"
+        autofocus
+        placeholder="Search images and photos"
+        // onChange={handleSubmit}
+        // value={search}
+      />
+    </form>
+  </header>
+  )
+}
 
-return (
-    <header class="searchbar">
-  <form class="form" onSubmit={this.handleSubmit}>
-    <button type="submit" class="button">
-      <span class="button-label">Search</span>
-    </button>
-
-    <input
-      class="input"
-      type="text"
-      autocomplete="off"
-      autofocus
-      placeholder="Search images and photos"
-      onChange={onSubmit}
-      value={search}
-    />
-  </form>
-</header>
-)
 }
