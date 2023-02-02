@@ -1,29 +1,41 @@
 import { Component } from "react";
 import {Searchbar} from './Searchbar/Searchbar'
 import {ImageGallery} from './ImageGallery/ImageGallery'
-
-import css from '../styles.css'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export  class App extends Component {
   state = {
-  search: ''
+    searchQuery: '',
   }
   
 
-onSubmit = search => {
-this.setState (()=> ({search}))
+onSubmit = searchQuery => {
+this.setState ({searchQuery})
 }
 
 render () {
-const {search} = this.state;
+const {searchQuery} = this.state;
 
 
   return (
-    <div className={css.app}>
+    <>
       <Searchbar onSubmit={this.onSubmit}/>
-      <ImageGallery search={search}/>
-    </div>
+      <ImageGallery searchQuery={searchQuery}/>
+      <ToastContainer
+          position="top-right"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+    </>
   )
 }  
   }

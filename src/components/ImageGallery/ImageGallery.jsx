@@ -1,14 +1,14 @@
+import css from '../ImageGallery/ImageGallery.module.css'
 import { Component } from 'react'
 import PropTypes from 'prop-types';
 
 
 import {ImageGalleryItem} from '../ImageGalleryItem/ImageGalleryItem'
-import {Button} from '../Button/Button'
-import {Section} from '../Section/Section'
 import {Loader} from '../Loader/Loader'
+import {Section} from '../Section/Section'
+import {Button} from '../Button/Button'
 
-import css from '../ImageGallery/ImageGallery.module.css'
-
+import {Loader} from '../Loader/Loader';
 import {fetchPichureData} from '../../services/service'
 import Notiflix from 'notiflix';
 
@@ -28,20 +28,19 @@ export class ImageGallery extends Component {
     status: STATUS.idle
   }
 
-componentDidUpdate(prevProps, prevState){
-      const { search} = this.props;
-      const { search: prevQuery } = prevProps;
-      const { page } = this.state;
-      const { page: prevPage } = prevState;
-  
-      if (search !== prevQuery) {
-        this.setState({ page: 1, imgData: [] })
-      }
+  componentDidUpdate(prevProps, prevState) {
+    const { searchQuery } = this.props;
+    const { searchQuery: prevQuery } = prevProps;
+    const { page } = this.state;
+    const { page: prevPage } = prevState;
 
-      if (search!== prevQuery || page !== prevPage) {
-        this.fetchData()
-      }
-    };
+    if (searchQuery !== prevQuery) {
+      this.setState({ page: 1, imgData: [] });
+    }
+    if (searchQuery !== prevQuery || page !== prevPage) {
+      this.fetchData();
+    }
+  }
 
 
 fetchData = async () => {
@@ -71,17 +70,16 @@ fetchData = async () => {
 
 
 loadMore =() => {
-  this.setState(({page: prevPage}) => ({page: prevPage + 1}
-      )
-  )
-}
+  this.setState(({page: prevPage}) => ({page: prevPage + 1}));
+};
 
   render(){ 
     const { status, imgData, per_page } = this.state;
 
   return (
     <Section>
-    <ul className={css.imageGallery}>
+      <>
+    <ul className={css.container}>
 
   {imgData.map(imgItem => (
     <ImageGalleryItem key={imgItem.id} {...imgItem}/>
@@ -91,6 +89,7 @@ loadMore =() => {
 {status === STATUS.pending && <Loader/>}
 {status === STATUS.success && !(imgData.length < per_page)&&
 (<Button onClick={this.loadMore}/>)}
+</>
 </Section>
 );
 }

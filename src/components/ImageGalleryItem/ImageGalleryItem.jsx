@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import css from '../ImageGalleryItem/ImageGalleryItem.module.css'
-import * as basicLightbox from 'basiclightbox'
+// import * as basicLightbox from 'basiclightbox'
 import {Modal} from '../Modal/Modal'
 
 export class ImageGalleryItem extends Component  {
@@ -33,21 +33,25 @@ export class ImageGalleryItem extends Component  {
 </li>
 {showModal && (
           <Modal 
-          onClose={this.toggleModal}
-          >
+          onClose={this.toggleModal}>
             {/* <LazyLoadImage
             src={largeImageURL}
             alt={tags}
             placeholderSrc={webformatURL}
           /> */}
 
-const instance = basicLightbox.create(`
+<img
+            src={largeImageURL}
+            alt={tags}
+            placeholderSrc={webformatURL}
+          />
+
+{/* const instance = basicLightbox.create(`
     <img src={largeImageURL} width="800" height="600"/>
 `)
 
-instance.show()
+instance.show() */}
 
-instance.show()
       </Modal>
         )}
 
@@ -57,5 +61,10 @@ instance.show()
 }
 
 
-
+// ImageGalleryItem.prototype ={
+//   webformatURL: PropTypes.string.isRequired,
+//   tags: PropTypes.string.isRequired, 
+//   previewURL: PropTypes.string.isRequired, 
+//   largeImageURL:PropTypes.string.isRequired
+// }
 
