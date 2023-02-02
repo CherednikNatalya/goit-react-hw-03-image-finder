@@ -1,64 +1,48 @@
-import { Component } from 'react'
-import css from '../ImageGalleryItem/ImageGalleryItem.module.css'
-// import * as basicLightbox from 'basiclightbox'
-import {Modal} from '../Modal/Modal'
-
-export class ImageGalleryItem extends Component  {
-  state ={
-    showModal: false,
-  }
-
-  toggleModal = () => {
-        this.setState(({ showModal }) => ({
-          showModal: !showModal,
-        }));
-      };
+// import { Component } from 'react'
+// import {Modal} from '../Modal/Modal'
+// import css from '../ImageGalleryItem/ImageGalleryItem.module.css'
+// // import * as basicLightbox from 'basiclightbox'
 
 
-  render(){
-    const { webformatURL, tags, previewURL, largeImageURL } = this.props;
-    const { showModal } = this.state;
+// export class ImageGalleryItem extends Component  {
+//   state ={
+//     showModal: false,
+//   }
+
+//   toggleModal = () => {
+//         this.setState(({ showModal }) => ({
+//           showModal: !showModal,
+//         }));
+//       };
 
 
-  return (
-    <>
-    <li className={css.imageGalleryItem}>
-  <img src={webformatURL}
-  alt={tags}
-  placeholderSrc={previewURL}
-            // effect="blur"
-            // className={css['fetched-image']}
-            className = {css.imageGalleryItem_image}
-            />
-</li>
-{showModal && (
-          <Modal 
-          onClose={this.toggleModal}>
-            {/* <LazyLoadImage
-            src={largeImageURL}
-            alt={tags}
-            placeholderSrc={webformatURL}
-          /> */}
-
-<img
-            src={largeImageURL}
-            alt={tags}
-            placeholderSrc={webformatURL}
-          />
-
-{/* const instance = basicLightbox.create(`
-    <img src={largeImageURL} width="800" height="600"/>
-`)
-
-instance.show() */}
-
-      </Modal>
-        )}
+//   render(){
+//     const { webformatURL, tags, previewURL, largeImageURL } = this.props;
+//     const { showModal } = this.state;
 
 
-</>
-  )}
-}
+//   return (
+//     <>
+//     <li className={css['photo-card']} onClick={this.toggleModal}>
+//   <img src={webformatURL}
+//   alt={tags}
+//   placeholderSrc={previewURL}
+//             // effect="blur"
+            
+//             className={css['fetched-image']}
+//             />
+// </li>
+// {showModal && (<Modal onClose={this.toggleModal}>
+
+// <img src={largeImageURL}
+// alt={tags}
+// placeholderSrc={webformatURL}/>
+// </Modal>
+//         )}
+// </>
+//   );
+// }
+// }
 
 
 // ImageGalleryItem.prototype ={
@@ -68,3 +52,51 @@ instance.show() */}
 //   largeImageURL:PropTypes.string.isRequired
 // }
 
+import { Component } from 'react';
+import { Modal } from 'components/Modal/Modal';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
+import css from './ImageGalleryItem.module.css';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
+export class ImageGalleryItem extends Component {
+  state = {
+    showModal: false,
+  };
+
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+
+  render() {
+    const { webformatURL, tags, previewURL, largeImageURL } = this.props;
+    const { showModal } = this.state;
+    return (
+      <>
+        <li className={css['photo-card']} onClick={this.toggleModal}>
+          <LazyLoadImage
+            src={webformatURL}
+            alt={tags}
+            placeholderSrc={previewURL}
+            effect="blur"
+            className={css['fetched-image']}
+          />
+        </li>
+        {showModal && (
+          <Modal 
+          onClose={this.toggleModal}>
+            <LazyLoadImage
+            src={largeImageURL}
+            alt={tags}
+            placeholderSrc={webformatURL}
+          />
+          </Modal>
+        )}
+      </>
+    );
+  }
+}

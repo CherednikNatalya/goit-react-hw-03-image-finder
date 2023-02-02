@@ -1,32 +1,40 @@
-import css from '../ImageGallery/ImageGallery.module.css'
-import { Component } from 'react'
-import PropTypes from 'prop-types';
 
 
-import {ImageGalleryItem} from '../ImageGalleryItem/ImageGalleryItem'
-import {Loader} from '../Loader/Loader'
-import {Section} from '../Section/Section'
-import {Button} from '../Button/Button'
 
-import {Loader} from '../Loader/Loader';
-import {fetchPichureData} from '../../services/service'
+// ImageGallery.prototype ={
+//   search: PropTypes.string.isRequired
+// }
+
+
+
+
+
+import css from './ImageGallery.module.css';
+
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { Loader } from '../Loader/Loader';
+
+import { Section } from 'components/Section/Section';
+import { Button } from 'components/Button/Button';
+import { Component } from 'react';
+import { fetchPichureData } from '../../services/service';
+
+// import { toast } from 'react-toastify';
 import Notiflix from 'notiflix';
-
 const STATUS = {
-    idle: 'idle',
-    pending: 'pending',
-    success: 'success',
-    rejected: 'rejected',
-  };
-
+  idle: 'idle',
+  pending: 'pending',
+  success: 'success',
+  rejected: 'rejected',
+};
 
 export class ImageGallery extends Component {
-  state ={
+  state = {
     imgData: [],
     page: 1,
     per_page: 12,
-    status: STATUS.idle
-  }
+    status: STATUS.idle,
+  };
 
   componentDidUpdate(prevProps, prevState) {
     const { searchQuery } = this.props;
@@ -42,64 +50,55 @@ export class ImageGallery extends Component {
     }
   }
 
+  fetchData = async () => {
+    this.setState({ status: STATUS.pending });
+    const { searchQuery } = this.props;
+    const { page, per_page } = this.state;
+    try {
+      const requestData = await fetchPichureData(searchQuery, page, per_page);
+      if (requestData.data.total === 0) {
+        this.setState({
+          status: STATUS.rejected,
+        });
+        Notiflix.Notify.failure('No images');
+        return;
+      }
+      this.setState(({ imgData: prevData }) => ({
+        imgData: [...prevData, ...requestData.data.hits],
+        status: STATUS.success,
+      }));
+    } catch (error) {
+      this.setState({
+        status: STATUS.rejected,
+      });
+      Notiflix.Notify.failure('No images');
+    }
+  };
 
-fetchData = async () => {
-        this.setState({ status: STATUS.pending });
-        const { searchQuery } = this.props;
-        const { page, per_page } = this.state;
-        try {
-          const requestData = await fetchPichureData(searchQuery, page, per_page);
-          if (requestData.data.total === 0) {
-            this.setState({
-              status: STATUS.rejected,
-            });
-            Notiflix.Notify.failure('No images');
-            return;
-          }
-          this.setState(({ imgData: prevData }) => ({
-            imgData: [...prevData, ...requestData.data.hits],
-            status: STATUS.success,
-          }));
-        } catch (error) {
-          this.setState({
-            status: STATUS.rejected,
-          });
-          Notiflix.Notify.failure('No images');
-        }
-      };
+  loadMore = () => {
+    this.setState(({ page: prevPage }) => ({ page: prevPage + 1 }));
+  };
 
+  render() {
+    const { status, imgData,per_page } = this.state;
 
-loadMore =() => {
-  this.setState(({page: prevPage}) => ({page: prevPage + 1}));
-};
-
-  render(){ 
-    const { status, imgData, per_page } = this.state;
-
-  return (
-    <Section>
-      <>
-    <ul className={css.container}>
-
-  {imgData.map(imgItem => (
-    <ImageGalleryItem key={imgItem.id} {...imgItem}/>
-  ))}
-</ul>
-
-{status === STATUS.pending && <Loader/>}
-{status === STATUS.success && !(imgData.length < per_page)&&
-(<Button onClick={this.loadMore}/>)}
-</>
-</Section>
-);
+    return (
+      <Section className="gallery">
+        <>
+          <ul className={css.container}>
+            {imgData.map(imgItem => (
+              <ImageGalleryItem key={imgItem.id} {...imgItem} />
+            ))}
+          </ul>
+          {status === STATUS.pending && <Loader />}
+          {status === STATUS.success && !(imgData.length<per_page)&&
+            (<Button onClick={this.loadMore} />
+          )}
+        </>
+      </Section>
+    );
+  }
 }
-}
-
-
-ImageGallery.prototype ={
-  search: PropTypes.string.isRequired
-}
-
 
 
 
