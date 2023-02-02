@@ -19,7 +19,7 @@ import { Button } from 'components/Button/Button';
 import { Component } from 'react';
 import { fetchPichureData } from '../../services/service';
 
-// import { toast } from 'react-toastify';
+
 import Notiflix from 'notiflix';
 const STATUS = {
   idle: 'idle',
