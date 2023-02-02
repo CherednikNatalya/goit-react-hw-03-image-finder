@@ -1,31 +1,15 @@
 import { Component } from "react";
-import axios from "axios";
-
 import {Searchbar} from './Searchbar/Searchbar'
-// import {Modal} from './Modal/Modal'
-
 import {ImageGallery} from './ImageGallery/ImageGallery'
 
-// import {Button} from './Button/Button'
+import css from '../styles.css'
+
 
 export  class App extends Component {
   state = {
   search: ''
   }
   
-//  async componentDidMount () {
- 
-//   try {
-//     const {data} = await axios.get('https://pixabay.com/api/?q=cat&page=1&key=31541189-0a437f1c4a0bdb60103b05fd6&image_type=photo&orientation=horizontal&per_page=12')
-//     this.setState({image: data})
-
-//   } catch (error) {
-//     console.log(error);
-//   } finally {
-//     this.setState({isLoading: false})
-//   }
-// }
-
 
 onSubmit = search => {
 this.setState (()=> ({search}))
@@ -36,12 +20,9 @@ const {search} = this.state;
 
 
   return (
-    <div>
-     
+    <div className={css.app}>
       <Searchbar onSubmit={this.onSubmit}/>
-      {/* <Modal/> */}
       <ImageGallery search={search}/>
-      
     </div>
   )
 }  
