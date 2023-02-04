@@ -43,7 +43,7 @@ export class ImageGallery extends Component {
     const { page: prevPage } = prevState;
 
     if (searchQuery !== prevQuery) {
-      this.setState({ page: 1, imgData: [] });
+      this.setState({ page: 1, per_page: 12, imgData: [],  });
     }
     if (searchQuery !== prevQuery || page !== prevPage) {
       this.fetchData();
