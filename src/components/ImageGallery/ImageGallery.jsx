@@ -1,14 +1,3 @@
-
-
-
-// ImageGallery.prototype ={
-//   search: PropTypes.string.isRequired
-// }
-
-
-
-
-
 import css from './ImageGallery.module.css';
 
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
@@ -21,6 +10,7 @@ import { fetchPichureData } from '../../services/service';
 
 
 import Notiflix from 'notiflix';
+
 const STATUS = {
   idle: 'idle',
   pending: 'pending',
@@ -43,9 +33,10 @@ export class ImageGallery extends Component {
     const { page: prevPage } = prevState;
 
     if (searchQuery !== prevQuery) {
-      this.setState({ page: 1, per_page: 12, imgData: [],  });
+      this.setState({ page: 1, imgData: []});
     }
     if (searchQuery !== prevQuery || page !== prevPage) {
+      this.setState({ page: 1, imgData: []});
       this.fetchData();
     }
   }
