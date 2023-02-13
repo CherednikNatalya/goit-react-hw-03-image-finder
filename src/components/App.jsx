@@ -34,7 +34,6 @@ export  class App extends Component {
 
     if (searchQuery !== prevQuery || page !== prevPage) {
       this.fetchData();
-     
     }
   }
 
